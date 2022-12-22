@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Task;
 
 use Illuminate\Http\Request;
 
@@ -13,17 +14,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $task = Task::all();
+        $data = [
+            "message" => "Get all task resource",
+            "data" => $task
+        ];
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($data, 200);
+        
     }
 
     /**
@@ -34,7 +32,21 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $dataInput = $request->validate([
+            'task' => 'required',
+            'start_date' => 'required|date',
+            'deadline' => 'required|date',
+        ]) ;
+
+        $task = Task::create($dataInput);
+
+        $data = [
+            "Message" => "add new resouces succesfully",
+            "data" => $task,
+        ];
+
+        return response()->json($data, 201);
     }
 
     /**
@@ -45,7 +57,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+      
     }
 
     /**
@@ -68,7 +80,31 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+          $task = Task::find($id);
+
+        if ($task){
+            $dataInput = [
+                "task" => $request->task,
+                "start_date" => $request->start_date,
+                "deadline" => $request->deadline,
+            ];
+
+        $task->update($dataInput);
+
+        $data = [
+            "Message" => "Task is update",
+            "data" => $task
+        ];
+
+        return response($data, 200);
+
+        }else{
+            $data = [
+                "message" => "Task not found",
+            ];
+
+            return response()->json($data, 404);
+        }
     }
 
     /**
@@ -79,6 +115,22 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+        
+        if($task){
+            $task->delete($id);
+
+            $data = [
+                "message" => "Task is deleted"
+            ];
+
+            return response()->json($data, 200);
+        }else{
+            $data = [
+                "message" => "Task not found"
+            ];
+            
+            return response()->json($data, 404);
+        }
     }
 }
