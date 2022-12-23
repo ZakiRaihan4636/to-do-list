@@ -20,6 +20,6 @@ use App\Http\Controllers\TaskController;
 //     return view('welcome');
 // });
 
-Route::get('/', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'register']);
-Route::get('/task', [TaskController::class, 'index']);
+// Route::get('/', [AuthController::class, 'login']);
+// Route::get('/register', [AuthController::class, 'register']);
+Route::get('/dashboard', [TaskController::class, 'index']);
