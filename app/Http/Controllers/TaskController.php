@@ -15,7 +15,7 @@ class TaskController extends Controller
     public function index()
     {
         $result = Task::all();
-        return view('task', ['task' => $result]);
+        return view('dashboard', ['task' => $result]);
     }
 
 
@@ -41,7 +41,7 @@ class TaskController extends Controller
         $task = Task::create($dataInput);
         
         if($task){
-            return redirect('/task');
+            return redirect('/dashboard');
         }
     }
 
@@ -71,14 +71,14 @@ class TaskController extends Controller
         $post->start_date = $request->start_date;
         $post->deadline = $request->deadline;
         $post->update();
-        return redirect('/task');
+        return redirect('/dashboard');
     }
 
     public function destroy($id)
     {
         Task:destroy($id);
 
-        return redirect('/task'); 
+        return redirect('/dashboard'); 
     }
 
 }
