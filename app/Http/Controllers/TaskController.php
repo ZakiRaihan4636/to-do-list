@@ -14,14 +14,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task = Task::all();
-        $data = [
-            "message" => "Get all task resource",
-            "data" => $task
-        ];
+        $result = Task::all();
+        return view('task', ['task' => $result]);
+    }
 
-        return response()->json($data, 200);
-        
+
+    public function create(){
+        return view('create');
     }
 
     /**
@@ -40,35 +39,16 @@ class TaskController extends Controller
         ]) ;
 
         $task = Task::create($dataInput);
-
-        $data = [
-            "Message" => "add new resouces succesfully",
-            "data" => $task,
-        ];
-
-        return response()->json($data, 201);
+        
+        if($task){
+            return redirect('/task');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-      
-    }
+    public function edit($id){
+        $result = Task::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return view('edit', ['task' => $result]);
     }
 
     /**
@@ -80,57 +60,25 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-          $task = Task::find($id);
+        $request->validate([
+            'task' => 'required',
+            'start_date' => 'required|date',
+            'deadline' => 'required|date',
+        ]);
 
-        if ($task){
-            $dataInput = [
-                "task" => $request->task,
-                "start_date" => $request->start_date,
-                "deadline" => $request->deadline,
-            ];
-
-        $task->update($dataInput);
-
-        $data = [
-            "Message" => "Task is update",
-            "data" => $task
-        ];
-
-        return response($data, 200);
-
-        }else{
-            $data = [
-                "message" => "Task not found",
-            ];
-
-            return response()->json($data, 404);
-        }
+        $post = Post::Find($id);
+        $post->task = $request->task;
+        $post->start_date = $request->start_date;
+        $post->deadline = $request->deadline;
+        $post->update();
+        return redirect('/task');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $task = Task::find($id);
-        
-        if($task){
-            $task->delete($id);
+        Task:destroy($id);
 
-            $data = [
-                "message" => "Task is deleted"
-            ];
-
-            return response()->json($data, 200);
-        }else{
-            $data = [
-                "message" => "Task not found"
-            ];
-            
-            return response()->json($data, 404);
-        }
+        return redirect('/task'); 
     }
+
 }
