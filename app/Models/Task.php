@@ -9,4 +9,10 @@ class Task extends Model
 {
     use HasFactory;
     protected $fillable = ['task','start_date', 'deadline'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }
+

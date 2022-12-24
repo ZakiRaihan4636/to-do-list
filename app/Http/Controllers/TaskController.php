@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +44,7 @@ class TaskController extends Controller
         ]) ;
 
         $task = Task::create($dataInput);
-        
+
         if($task){
             return redirect('/dashboard');
         }
@@ -78,7 +83,7 @@ class TaskController extends Controller
     {
         Task:destroy($id);
 
-        return redirect('/dashboard'); 
+        return redirect('/dashboard');
     }
 
 }
