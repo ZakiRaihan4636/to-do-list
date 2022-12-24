@@ -16,10 +16,9 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/', [AuthController::class, 'login']);
-// Route::get('/register', [AuthController::class, 'register']);
 Route::get('/dashboard', [TaskController::class, 'index']);
+
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/logout', [App\Http\Controllers\Auth\LogoutController::class, 'index'])->name('logout');
