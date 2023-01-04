@@ -16,7 +16,9 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/dashboard', [TaskController::class, 'index']);
+Route::get('/welcome', [TaskController::class, 'dashboard']);
+Route::get('/tasks', [TaskController::class, 'index']);
+Route::post('/tasks', [TaskController::class, 'store']);
 
 Auth::routes();
 
