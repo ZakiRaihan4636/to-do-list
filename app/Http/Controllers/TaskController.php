@@ -12,9 +12,6 @@ class TaskController extends Controller
     // {
     //     $this->middleware('auth');
     // }
-    public function dashboard(){
-        return view('welcome');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +41,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {
 
-        $this->validete($request,[
+        $this->validate($request,[
             'task' => 'required',
             'start_date' => 'required|date',
             'deadline' => 'required|date',
@@ -89,14 +86,14 @@ class TaskController extends Controller
         $post->start_date = $request->start_date;
         $post->deadline = $request->deadline;
         $post->update();
-        return redirect('/dashboard');
+        return redirect('/task');
     }
 
     public function destroy($id)
     {
         Task:destroy($id);
 
-        return redirect('/dashboard');
+        return redirect('/task');
     }
 
 }

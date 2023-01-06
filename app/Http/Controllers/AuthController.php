@@ -26,7 +26,7 @@ class AuthController extends Controller
     //             'message' => 'login succesfuly',
     //         ];
 
-    //         return view('dashboard');
+    //         return view('task.task');
     //     }
     // }
 

@@ -72,7 +72,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{route('tasks.store')}}" method="POST">
+        <form action="tasks/store" method="POST">
           @csrf
           <select class="form-select" aria-label="Default select example">
             <option selected>Open this select menu</option>

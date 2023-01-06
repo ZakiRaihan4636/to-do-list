@@ -61,7 +61,7 @@
             <div
             class="login-footer text-center d-flex justify-content-center align-items-center"
             >
-            Sudah punya akun?<a href="{{ url('/') }}">Masuk</a>
+            Sudah punya akun?<a href="{{ url('/login') }}">Masuk</a>
             </div>
         </div>
     </div>
