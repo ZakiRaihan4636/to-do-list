@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Task;
-use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -12,8 +12,9 @@ class TaskController extends Controller
     // {
     //     $this->middleware('auth');
     // }
-    public function dashboard(){
-        return view('welcome');
+    public function dashboard()
+    {
+        return view('dashboard');
     }
     /**
      * Display a listing of the resource.
@@ -23,15 +24,17 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
-        $users = User::all();
-        return view('task.task', [
-           'tasks' => $tasks,
-           'users' => $users
-        ]);
+        return view('task.index', compact('tasks'));
+    }
+
+    public function show(Task $task)
+    {
+        return view('task.index', compact('task'));
     }
 
 
-    public function create(){
+    public function create()
+    {
         return view('task.task');
     }
 
@@ -44,15 +47,16 @@ class TaskController extends Controller
     public function store(Request $request)
     {
 
-        $this->validete($request,[
+        $this->validate($request, [
+            'matkul' => 'required',
             'task' => 'required',
             'start_date' => 'required|date',
             'deadline' => 'required|date',
             'deskripsi' => 'required',
-        ]) ;
+        ]);
 
         Task::create([
-            'user_id' => $request->user_id,
+            'matkul' => $request->matkul,
             'task' => $request->task,
             'start_date' => $request->start_date,
             'deadline' => $request->deadline,
@@ -62,41 +66,40 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function edit($id){
-        $result = Task::find($id);
-
-        return view('edit', ['task' => $result]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function edit(Task $task)
     {
-        $request->validate([
+        return view('task.index', compact('task'));
+    }
+    public function update(Request $request, Task $task)
+    {
+        //validate form
+        $this->validate($request, [
+            'matkul' => 'required',
             'task' => 'required',
             'start_date' => 'required|date',
             'deadline' => 'required|date',
             'deskripsi' => 'required',
         ]);
+        //update task
 
-        $post = Post::Find($id);
-        $post->task = $request->task;
-        $post->start_date = $request->start_date;
-        $post->deadline = $request->deadline;
-        $post->update();
-        return redirect('/dashboard');
+        $task->update([
+            'matkul' => $request->matkul,
+            'task' => $request->task,
+            'start_date' => $request->start_date,
+            'deadline' => $request->deadline,
+            'deskripsi' => $request->deskripsi
+        ]);
+
+        //redirect to index
+        return redirect()->route('tasks.index');
     }
 
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        Task:destroy($id);
+        //delete task
+        $task->delete();
 
-        return redirect('/dashboard');
+        //redirect to index
+        return redirect()->route('tasks.index');
     }
-
 }

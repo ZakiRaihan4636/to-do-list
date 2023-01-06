@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
 
 
@@ -16,11 +17,10 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/welcome', [TaskController::class, 'dashboard']);
-Route::get('/tasks', [TaskController::class, 'index']);
-Route::post('/tasks', [TaskController::class, 'store']);
+Route::get('/', [TaskController::class, 'dashboard']);
+Route::resource('/tasks', TaskController::class);
 
-Auth::routes();
+// Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', [App\Http\Controllers\Auth\LogoutController::class, 'index'])->name('logout');

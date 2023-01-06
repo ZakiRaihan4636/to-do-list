@@ -8,11 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
-    protected $fillable = ['task','start_date', 'deadline', 'deskripsi'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['matkul', 'task', 'start_date', 'deadline', 'deskripsi'];
 }
-
