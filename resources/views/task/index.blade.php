@@ -73,14 +73,14 @@
                                                   <div class="modal-body d-flex justify-content-center">
 
                                                       <div class="card mb-3">
-                                                          <img src="{{ asset('lte') }}/assets/img/todolist.png"
+                                                          <img src="{{ asset('lte') }}/assets/img/todo.jpg"
                                                               class="card-img-top" alt="...">
                                                           <div class="card-body">
                                                               <h5 class="card-title">{{ $task->matkul }}</h5>
                                                               <p class="card-text">Tugas : {{ $task->task }}</p>
                                                               <p class="card-text">Deskripsi :{{ $task->deskripsi }}
                                                               </p>
-                                                              <p class="card-text">Tanggal Muali :
+                                                              <p class="card-text">Tanggal Mulai :
                                                                   {{ $task->start_date }}</p>
                                                               <p class="card-text">Deadline : {{ $task->deadline }}</p>
                                                           </div>
@@ -172,6 +172,7 @@
                   <form action="{{ route('tasks.store') }}" method="POST">
                       @csrf
                       <div class="mb-3">
+                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                           <label for="recipient-name" class="col-form-label">Mata Kuliah</label>
                           <input type="text" class="form-control" name="matkul" id="matkul">
                       </div>

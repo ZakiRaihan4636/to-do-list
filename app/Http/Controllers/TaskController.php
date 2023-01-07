@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Users;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -15,7 +17,9 @@ class TaskController extends Controller
     
     public function dashboard()
     {
-        return view('dashboard');
+        $count_task = auth()->user()->task()->count();
+
+        return view('dashboard', compact('count_task'));
     }
     /**
      * Display a listing of the resource.
@@ -24,8 +28,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
-        return view('task.index', compact('tasks'));
+        $tasks = auth()->user()->task()->get();
+        return view('task.index')->with(['tasks' => $tasks]);
     }
 
     public function show(Task $task)
@@ -57,6 +61,7 @@ class TaskController extends Controller
         ]);
 
         Task::create([
+            'user_id' => $request->user_id,
             'matkul' => $request->matkul,
             'task' => $request->task,
             'start_date' => $request->start_date,
@@ -84,6 +89,7 @@ class TaskController extends Controller
         //update task
 
         $task->update([
+            'user_id' => $request->user_id,
             'matkul' => $request->matkul,
             'task' => $request->task,
             'start_date' => $request->start_date,
